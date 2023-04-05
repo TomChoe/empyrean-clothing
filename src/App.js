@@ -1,12 +1,23 @@
-import Directory from './components/directory/directory.component';
-import categories from './categories.json'
+import { Routes, Route } from 'react-router-dom';
+import Home from './routes/home/home.component';
+import Navigation from './routes/navigation/navigation.component';
 
 const App = () => {
-
   
   return (
-    <Directory categories={categories} />
+    <Routes>
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path="shop" element={<Shop />} />
+      </Route>
+    </Routes>
+
   );
 }
 
 export default App;
+
+
+const Shop = () => {
+  return <h1>shop</h1>
+}
