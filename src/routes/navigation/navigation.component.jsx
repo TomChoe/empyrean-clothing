@@ -12,7 +12,6 @@ const Navigation = () => {
   const { currentUser } = useContext(UserContext);
   const { isCartOpen } = useContext(CartContext);
 
-  console.log('somethin brok')
   return (
     <Fragment>
       <div className='navigation'>
