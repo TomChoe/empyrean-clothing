@@ -1,11 +1,12 @@
 import React from 'react';
 import DirectoryItem from '../directoryitem';
+import { CATEGORIES } from '../../categories-data';
 import './directory.styles.scss';
 
-const Directory = ({ categories }) => {
+const Directory = () => {
   return (
     <div className="directory-container">
-      {categories.map((category) => (
+      {CATEGORIES.map((category) => (
         <DirectoryItem category={category} key={category.id} />
       ))}
     </div>

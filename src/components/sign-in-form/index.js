@@ -5,16 +5,15 @@ import {
   signInAuthUserWithEmailAndPassword,
 } from "../../utils/firebase.utils";
 import FormInput from "../form-input";
-import Button from "../button";
-import './sign-in-form.styles.scss';
+import Button, { BUTTON_TYPE_CLASSES } from "../button";
+import "./sign-in-form.styles.scss";
 
 const defaultFormFields = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 
-const SignInForm
- = () => {
+const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;
 
@@ -22,7 +21,7 @@ const SignInForm
     const { name, value } = e.target;
     setFormFields({
       ...formFields,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -39,10 +38,14 @@ const SignInForm
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(email, password);
+      const { user } = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
       resetFormFields();
     } catch (error) {
-      if (error.code === 'auth/invalid-credential') alert('Invalid auth credentials');
+      if (error.code === "auth/invalid-credential")
+        alert("Invalid auth credentials");
     }
   };
 
@@ -69,13 +72,17 @@ const SignInForm
         />
         <div className='buttons-container'>
           <Button type='submit'>Sign In</Button>
-          <Button type='button' onClick={signInWithGoogle} buttonType='google'>
+          <Button
+            type='button'
+            onClick={signInWithGoogle}
+            buttonType={BUTTON_TYPE_CLASSES.google}
+          >
             Google Sign In
           </Button>
         </div>
       </form>
     </div>
   );
-}
+};
 
 export default SignInForm;
