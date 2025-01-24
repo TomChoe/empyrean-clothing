@@ -1,6 +1,7 @@
-import { signOutUser } from "../../utils/firebase.utils";
-import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { Outlet } from "react-router-dom";
+import { signOutStart } from "../../store/user/user.action";
 import { selectCurrentUser } from "../../store/user/user.selector";
 import { selectIsCartOpen } from "../../store/cart/cart.selector";
 import CartIcon from "../../components/cart-icon";
@@ -14,12 +15,15 @@ import {
 } from "./navigation.styles";
 
 export const Navigation = () => {
+  const dispatch = useDispatch();
   const currentUser = useSelector(selectCurrentUser);
   const isCartOpen = useSelector(selectIsCartOpen);
-  const signOutHandler = async () => {
-    await signOutUser();
+
+  const signOutHandler = () => {
+    dispatch(signOutStart());
   };
 
+  console.log("current user ", currentUser);
   return (
     <>
       <NavigationContainer>

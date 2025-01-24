@@ -1,20 +1,23 @@
 import { useState } from "react";
-import {
-  createAuthUserWithEmailAndPassword,
-  createUserDocumentFromAuth,
-} from "../../utils/firebase.utils";
+import { useDispatch } from "react-redux";
+import { signUpStart } from "../../store/user/user.action";
+// import {
+//   createAuthUserWithEmailAndPassword,
+//   createUserDocumentFromAuth,
+// } from "../../utils/firebase.utils";
 import FormInput from "../form-input";
 import Button from "../button";
-import './sign-up-form.styles.scss';
+import "./sign-up-form.styles.scss";
 
 const defaultFormFields = {
-  displayName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
+  displayName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
 };
 
 const SignUpForm = () => {
+  const dispatch = useDispatch();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
 
@@ -22,7 +25,7 @@ const SignUpForm = () => {
     const { name, value } = e.target;
     setFormFields({
       ...formFields,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -30,24 +33,22 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) return alert('Passwords do not match');
+    if (password !== confirmPassword) return alert("Passwords do not match");
 
     try {
-      const { user } = await createAuthUserWithEmailAndPassword(email, password);
-
-      await createUserDocumentFromAuth(user, { displayName });
+      dispatch(signUpStart(email, password, displayName));
       resetFormFields();
-      
-      alert('Thank you for signing up');
+
+      alert("Thank you for signing up");
     } catch (error) {
       if (error.code === "auth/email-already-in-use")
         alert("Email already in use, please try again");
-      console.error('user signup error', error);
+      console.error("user signup error", error);
     }
   };
 
   return (
-    <div className="sign-up-container">
+    <div className='sign-up-container'>
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
@@ -87,6 +88,6 @@ const SignUpForm = () => {
       </form>
     </div>
   );
-}
+};
 
 export default SignUpForm;
